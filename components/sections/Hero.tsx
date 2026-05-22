@@ -12,13 +12,6 @@ const lines: { text: string; italic?: boolean }[] = [
   { text: "that actually ship." },
 ];
 
-const pills = [
-  { label: "10+ yrs", sub: "Marketing", style: "top-[6%] left-[-12%]" },
-  { label: "3x", sub: "Founder", style: "top-[18%] right-[-14%]" },
-  { label: "AI", sub: "First", style: "bottom-[16%] left-[-18%]" },
-  { label: "30+", sub: "Brands", style: "bottom-[4%] right-[-8%]" },
-];
-
 export function Hero() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -194,31 +187,6 @@ export function Hero() {
                   priority
                 />
               </m.div>
-
-              {/* Orbiting pills */}
-              {pills.map((p, i) => (
-                <m.div
-                  key={p.label}
-                  initial={{ opacity: 0, y: 14, scale: 0.85 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{
-                    duration: 0.6,
-                    delay: 1.0 + i * 0.12,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  className={`absolute ${p.style}`}
-                  style={{ animation: `float 6s ease-in-out infinite`, animationDelay: `${i * 0.6}s` }}
-                >
-                  <div className="flex items-baseline gap-2 rounded-full border border-line bg-bg/90 backdrop-blur-md px-3.5 py-2 shadow-[0_8px_24px_-8px_rgba(0,0,0,0.2)] dark:bg-[#141414]/90">
-                    <span className="font-display text-[18px] leading-none">
-                      {p.label}
-                    </span>
-                    <span className="text-[10px] uppercase tracking-[0.18em] text-text-primary/55">
-                      {p.sub}
-                    </span>
-                  </div>
-                </m.div>
-              ))}
             </div>
           </m.div>
         </div>

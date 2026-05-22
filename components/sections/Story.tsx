@@ -2,13 +2,12 @@
 
 import { m } from "framer-motion";
 import { Container } from "@/components/ui/Container";
-import { TextReveal } from "@/components/ui/TextReveal";
 
 const paragraphs = [
-  "It started at BYU AdLab, where I learned that marketing was really just applied psychology with a spreadsheet. I ran real campaigns for real clients and realized I was better at this than most people with 10 more years of experience.",
-  "From there I went independent. Under EBP Designs I worked with 30+ brands over 10 years — startups, agencies, nonprofits. You learn a lot when you're accountable for results and there's no one else to blame.",
-  "Leadgenix taught me SEO and CRO at scale. I managed six-figure monthly ad budgets, ran link acquisition campaigns, and built reporting systems before “AI workflows” was a buzzword.",
-  "Now I'm operating at two companies simultaneously — building the marketing engine at Vibrant Wellness while co-owning Pickled Court and rolling out a franchise. I also build the AI agents that make both possible.",
+  "It started at BYU AdLab, where I learned that marketing was really just applied psychology with a spreadsheet. I ran real campaigns for real clients and realized this was what I wanted to do.",
+  "From there I went independent. Under EBP Designs I worked with dozens of brands over the years — startups, agencies, nonprofits. You learn a lot when you're accountable for results and there's no one else to blame.",
+  "Leadgenix taught me SEO and CRO at scale — running large-scale paid and SEO campaigns, link acquisition, and reporting systems before “AI workflows” was a buzzword.",
+  "Now I'm operating at two companies simultaneously — building the marketing engine at Vibrant Wellness while leading Pickled Court as CEO through a franchise rollout. I also build the AI agents that make both possible.",
 ];
 
 export function Story() {
@@ -69,11 +68,15 @@ export function Story() {
                     className="block h-px w-full mb-10 bg-text-primary/15 origin-left"
                   />
                 )}
-                <TextReveal
-                  text={p}
+                <m.p
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-15%" }}
+                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                   className="text-[#333330] dark:text-[#CCCCB8] leading-[1.7] text-[clamp(15px,1.6vw,18px)]"
-                  stagger={0.012}
-                />
+                >
+                  {p}
+                </m.p>
               </div>
             ))}
           </div>

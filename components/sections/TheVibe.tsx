@@ -12,7 +12,6 @@ const vibes: { label: string; size?: "sm" | "md" | "lg" }[] = [
   { label: "Growth marketing nerd", size: "lg" },
   { label: "Husband & father", size: "sm" },
   { label: "Builder who ships", size: "md" },
-  { label: "Founder", size: "sm" },
   { label: "Operator", size: "md" },
 ];
 

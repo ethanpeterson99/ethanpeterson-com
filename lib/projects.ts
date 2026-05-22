@@ -10,31 +10,32 @@ export const projects: Project[] = [
   {
     name: "Vibrant Wellness",
     role: "Performance Marketing Manager",
-    description: "Full-funnel paid + SEO for a DTC health brand.",
+    description:
+      "Full-funnel paid media, SEO, and growth systems for a DTC health brand.",
     tag: "Full-time",
-    href: "https://vibrant-wellness.com",
+    href: "https://vibrantwellness.com",
   },
   {
     name: "Pickled Court",
-    role: "Co-Owner",
+    role: "CEO",
     description:
-      "Franchise rollout for a pickleball court surfacing company.",
-    tag: "Founder",
+      "Leading the brand, marketing, and franchise rollout of a pickleball court surfacing company.",
+    tag: "CEO",
     href: "https://pickledcourt.com",
   },
   {
     name: "EBP Designs",
     role: "Freelance",
     description:
-      "10 years of brand, design, and dev for growth-focused clients.",
+      "Brand, design, and digital marketing for growth-focused clients since 2016.",
     tag: "Since 2016",
   },
   {
     name: "LymeDisease.org",
     role: "Digital Marketing",
     description:
-      "SEO, content strategy, and digital presence for the nation's leading Lyme disease advocacy org.",
-    tag: "Agency",
+      "Volunteer SEO, content strategy, and digital presence for the nation's leading Lyme disease advocacy organization.",
+    tag: "Volunteer",
     href: "https://www.lymedisease.org",
   },
 ];

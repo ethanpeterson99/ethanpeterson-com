@@ -1,14 +1,22 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { m, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { Container } from "@/components/ui/Container";
-import { ButtonLink } from "@/components/ui/Button";
+import { MagneticLink } from "@/components/ui/MagneticButton";
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0 },
-};
+const lines: { text: string; italic?: boolean }[] = [
+  { text: "I build AI-first" },
+  { text: "marketing systems", italic: true },
+  { text: "that actually ship." },
+];
+
+const pills = [
+  { label: "10+ yrs", sub: "Marketing", style: "top-[6%] left-[-12%]" },
+  { label: "3x", sub: "Founder", style: "top-[18%] right-[-14%]" },
+  { label: "AI", sub: "First", style: "bottom-[16%] left-[-18%]" },
+  { label: "30+", sub: "Brands", style: "bottom-[4%] right-[-8%]" },
+];
 
 export function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -16,109 +24,269 @@ export function Hero() {
     target: ref,
     offset: ["start start", "end start"],
   });
-  const headshotY = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const visualY = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const textY = useTransform(scrollYProgress, [0, 1], [0, -40]);
+
+  const [scrolled, setScrolled] = useState(false);
+  const [parallax, setParallax] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 100);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(hover: none), (pointer: coarse)").matches) return;
+    const onMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 2;
+      const y = (e.clientY / window.innerHeight - 0.5) * 2;
+      setParallax({ x: -x * 20, y: -y * 20 });
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => window.removeEventListener("mousemove", onMove);
+  }, []);
 
   return (
     <section
       ref={ref}
-      className="py-24 lg:py-32 border-b border-text-light/10 dark:border-text-dark/10"
+      className="relative min-h-[100svh] flex items-center pt-28 lg:pt-32 pb-24 border-b border-line overflow-hidden"
     >
-      <Container>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          <div className="lg:col-span-7 order-2 lg:order-1">
-            <motion.h1
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              transition={{ duration: 0.6, delay: 0 }}
-              className="font-display text-5xl md:text-6xl lg:text-[64px] leading-[1.05] tracking-tight text-balance"
-            >
-              I&apos;m Ethan. I build AI-first marketing systems that actually
-              ship — and the agents that run them.
-            </motion.h1>
+      {/* Background grid pattern */}
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-[0.04] dark:opacity-[0.07]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
+          backgroundSize: "80px 80px",
+        }}
+      />
 
-            <motion.p
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
+      <Container>
+        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-12 items-center">
+          {/* Left — text */}
+          <m.div
+            style={{ y: textY }}
+            className="lg:col-span-7 order-2 lg:order-1"
+          >
+            <m.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="mt-6 text-lg md:text-xl text-text-light/70 dark:text-text-dark/70 max-w-xl"
+              className="inline-flex items-center gap-2.5 mb-8 text-[11px] uppercase tracking-[0.22em] text-text-primary/70"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inset-0 rounded-full bg-emerald-500 animate-pulse-dot" />
+                <span className="absolute inset-0 rounded-full bg-emerald-500/40 animate-ping" />
+              </span>
+              Available for projects
+            </m.div>
+
+            <h1
+              className="font-display tracking-tight"
+              style={{
+                fontSize: "clamp(40px, 8vw, 88px)",
+                lineHeight: 1.02,
+              }}
+            >
+              {lines.map((line, li) => (
+                <span
+                  key={li}
+                  className="block word-mask"
+                  aria-label={line.text}
+                >
+                  {line.text.split(" ").map((word, wi) => {
+                    const idx = li * 5 + wi;
+                    return (
+                      <m.span
+                        key={`${li}-${wi}`}
+                        initial={{ y: "110%" }}
+                        animate={{ y: "0%" }}
+                        transition={{
+                          duration: 0.9,
+                          delay: 0.15 + idx * 0.08,
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
+                        className={`inline-block ${line.italic ? "italic" : ""}`}
+                      >
+                        {word}
+                        {wi < line.text.split(" ").length - 1 ? " " : ""}
+                      </m.span>
+                    );
+                  })}
+                </span>
+              ))}
+            </h1>
+
+            <m.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.9 }}
+              className="mt-7 max-w-xl text-text-primary/65 leading-relaxed"
+              style={{ fontSize: "clamp(15px, 2vw, 18px)" }}
             >
               Currently doing this at Vibrant Wellness and Pickled Court.
-            </motion.p>
+              Ten years building the marketing that converts — now writing the
+              agents that run it.
+            </m.p>
 
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="mt-10"
+            <m.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 1.1 }}
+              className="mt-10 flex flex-wrap items-center gap-4"
             >
-              <ButtonLink href="/contact">Get in touch</ButtonLink>
-            </motion.div>
+              <MagneticLink href="/contact" size="lg" variant="primary">
+                <span className="relative overflow-hidden">
+                  Get in touch
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-y-0 -inset-x-2 block"
+                  />
+                </span>
+                <Arrow />
+              </MagneticLink>
+              <MagneticLink href="/#work" size="lg" variant="ghost">
+                See the work
+              </MagneticLink>
+            </m.div>
+          </m.div>
 
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="mt-8 flex items-center gap-5"
-            >
-              <a
-                href="https://www.linkedin.com/in/ethanbpeterson/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="text-text-light/60 dark:text-text-dark/60 hover:text-accent transition-colors"
-              >
-                <LinkedInIcon />
-              </a>
-              <a
-                href="https://github.com/ethanpeterson99"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub"
-                className="text-text-light/60 dark:text-text-dark/60 hover:text-accent transition-colors"
-              >
-                <GitHubIcon />
-              </a>
-            </motion.div>
-          </div>
-
-          <motion.div
-            style={{ y: headshotY }}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.15 }}
+          {/* Right — visual */}
+          <m.div
+            style={{ y: visualY }}
             className="lg:col-span-5 order-1 lg:order-2 flex justify-center lg:justify-end"
           >
-            <div className="relative">
-              <div className="w-56 h-56 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full bg-gradient-to-br from-text-light/10 to-text-light/5 dark:from-text-dark/10 dark:to-text-dark/5 shadow-2xl ring-1 ring-text-light/10 dark:ring-text-dark/10 overflow-hidden flex items-center justify-center">
-                <span className="font-display text-7xl text-text-light/30 dark:text-text-dark/30">
-                  EP
-                </span>
-              </div>
-              <div className="absolute -inset-4 -z-10 rounded-full bg-accent/10 blur-3xl" />
+            <div
+              className="relative aspect-square w-[260px] sm:w-[320px] lg:w-[420px]"
+              style={{
+                transform: `translate3d(${parallax.x}px, ${parallax.y}px, 0)`,
+                transition: "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+              }}
+            >
+              {/* Rotating gradient halo */}
+              <div
+                aria-hidden
+                className="absolute -inset-6 rounded-full opacity-70 blur-2xl animate-bg-rotate"
+                style={{
+                  background:
+                    "conic-gradient(from 0deg at 50% 50%, rgba(0,102,255,0.45), transparent 30%, rgba(0,102,255,0.25) 60%, transparent 90%, rgba(0,102,255,0.45))",
+                }}
+              />
+
+              {/* Main disc */}
+              <m.div
+                initial={{ opacity: 0, scale: 0.92 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1.1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="relative h-full w-full rounded-full overflow-hidden border border-white/10 shadow-[0_30px_80px_-30px_rgba(0,102,255,0.55)]"
+                style={{
+                  background:
+                    "radial-gradient(120% 120% at 20% 15%, rgba(0,102,255,0.55) 0%, rgba(0,68,204,0.35) 35%, #0a0a0a 70%, #050505 100%)",
+                }}
+              >
+                {/* Inner texture */}
+                <div
+                  aria-hidden
+                  className="absolute inset-0 opacity-50"
+                  style={{
+                    background:
+                      "radial-gradient(60% 60% at 70% 80%, rgba(0,102,255,0.4) 0%, transparent 60%)",
+                  }}
+                />
+                <div
+                  aria-hidden
+                  className="absolute inset-0 mix-blend-overlay opacity-40"
+                  style={{
+                    backgroundImage:
+                      "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.85' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.6'/></svg>\")",
+                  }}
+                />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span
+                    className="font-display text-white leading-none select-none"
+                    style={{
+                      fontSize: "clamp(80px, 12vw, 140px)",
+                      letterSpacing: "-0.04em",
+                      textShadow: "0 6px 40px rgba(0,0,0,0.4)",
+                    }}
+                  >
+                    EP
+                  </span>
+                </div>
+              </m.div>
+
+              {/* Orbiting pills */}
+              {pills.map((p, i) => (
+                <m.div
+                  key={p.label}
+                  initial={{ opacity: 0, y: 14, scale: 0.85 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{
+                    duration: 0.6,
+                    delay: 1.0 + i * 0.12,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className={`absolute ${p.style}`}
+                  style={{ animation: `float 6s ease-in-out infinite`, animationDelay: `${i * 0.6}s` }}
+                >
+                  <div className="flex items-baseline gap-2 rounded-full border border-line bg-bg/90 backdrop-blur-md px-3.5 py-2 shadow-[0_8px_24px_-8px_rgba(0,0,0,0.2)] dark:bg-[#141414]/90">
+                    <span className="font-display text-[18px] leading-none">
+                      {p.label}
+                    </span>
+                    <span className="text-[10px] uppercase tracking-[0.18em] text-text-primary/55">
+                      {p.sub}
+                    </span>
+                  </div>
+                </m.div>
+              ))}
             </div>
-          </motion.div>
+          </m.div>
         </div>
+
+        {/* Scroll indicator */}
+        <m.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: scrolled ? 0 : 1 }}
+          transition={{ duration: 0.4 }}
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-text-primary/45"
+        >
+          <span>Scroll</span>
+          <span className="animate-bounce-arrow">
+            <svg width="10" height="14" viewBox="0 0 10 14" fill="none">
+              <path
+                d="M5 1v12m0 0l4-4m-4 4l-4-4"
+                stroke="currentColor"
+                strokeWidth="1"
+                strokeLinecap="round"
+              />
+            </svg>
+          </span>
+        </m.div>
       </Container>
     </section>
   );
 }
 
-function LinkedInIcon() {
+function Arrow() {
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.36V9h3.41v1.56h.05a3.74 3.74 0 0 1 3.37-1.85c3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12Zm1.78 13.02H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0Z" />
-    </svg>
-  );
-}
-
-function GitHubIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.58v-2.02c-3.34.73-4.04-1.6-4.04-1.6-.55-1.4-1.34-1.77-1.34-1.77-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .1-.78.42-1.31.76-1.61-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.31-.54-1.53.11-3.18 0 0 1-.32 3.3 1.23a11.4 11.4 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.66 1.65.24 2.87.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.81 5.62-5.48 5.92.42.36.81 1.1.81 2.22v3.29c0 .32.22.69.83.57A12 12 0 0 0 12 .3Z" />
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      className="transition-transform duration-300 group-hover:translate-x-0.5"
+    >
+      <path
+        d="M1 7h12m0 0L7 1m6 6l-6 6"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }

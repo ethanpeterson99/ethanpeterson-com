@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/Nav";
+import { CustomCursor } from "@/components/CustomCursor";
+import { SmoothScroll } from "@/components/SmoothScroll";
+import { MotionProvider } from "@/components/MotionProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -50,8 +53,13 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
-        <Nav />
-        {children}
+        <MotionProvider>
+          <SmoothScroll />
+          <CustomCursor />
+          <Nav />
+          {children}
+          <div className="noise-overlay" aria-hidden />
+        </MotionProvider>
       </body>
     </html>
   );

@@ -1,23 +1,22 @@
+@import url("https://api.fontshare.com/v2/css?f[]=instrument-serif@400,400i&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  @apply bg-bg-light text-text-light dark:bg-bg-dark dark:text-text-dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-display {
+  font-family: "Instrument Serif", Georgia, serif;
+  letter-spacing: -0.01em;
 }
 
 @layer utilities {

@@ -58,11 +58,11 @@ export function WhatIDo() {
                 delay: i * 0.12,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="group relative isolate overflow-hidden rounded-2xl border border-line bg-bg p-8 lg:p-10 transition-[transform,border-color,box-shadow] duration-500 hover:-translate-y-2 hover:border-accent/50 hover:shadow-[0_30px_70px_-30px_rgba(0,102,255,0.35)]"
+              className="group relative isolate overflow-hidden rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#141414] p-8 lg:p-10 transition-[transform,border-color,box-shadow] duration-500 hover:-translate-y-2 hover:border-accent/50 hover:shadow-[0_20px_60px_rgba(0,102,255,0.08)] dark:hover:shadow-[0_20px_60px_rgba(0,102,255,0.15)]"
             >
               <span
                 aria-hidden
-                className="absolute -top-2 -left-1 font-display select-none text-[120px] md:text-[140px] leading-none text-text-primary/[0.06] dark:text-text-dark/[0.08] pointer-events-none"
+                className="absolute -top-2 -left-1 font-display select-none text-[120px] md:text-[140px] leading-none opacity-[0.06] dark:opacity-[0.12] text-[#111111] dark:text-[#F0F0EB] pointer-events-none"
               >
                 {item.n}
               </span>
@@ -72,13 +72,13 @@ export function WhatIDo() {
               </span>
 
               <h3
-                className="relative font-display leading-[1.1] mb-4"
+                className="relative font-display leading-[1.1] mb-4 text-[#111111] dark:text-[#F0F0EB]"
                 style={{ fontSize: "clamp(22px, 2.4vw, 30px)" }}
               >
                 {item.title}
               </h3>
 
-              <p className="relative text-text-primary/65 leading-relaxed text-[15px]">
+              <p className="relative text-[#555550] dark:text-[#999990] leading-relaxed text-[15px]">
                 {item.body}
               </p>
 

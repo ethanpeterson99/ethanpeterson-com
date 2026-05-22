@@ -30,10 +30,11 @@ export const projects: Project[] = [
     tag: "Since 2016",
   },
   {
-    name: "CourtScout",
-    role: "Founder",
+    name: "LymeDisease.org",
+    role: "Digital Marketing",
     description:
-      "Geospatial lead-gen for court surfacing contractors, MVP in progress.",
-    tag: "Building",
+      "SEO, content strategy, and digital presence for the nation's leading Lyme disease advocacy org.",
+    tag: "Agency",
+    href: "https://www.lymedisease.org",
   },
 ];

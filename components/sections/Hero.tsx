@@ -1,6 +1,7 @@
 "use client";
 
 import { m, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { MagneticLink } from "@/components/ui/MagneticButton";
@@ -161,7 +162,7 @@ export function Hero() {
             className="lg:col-span-5 order-1 lg:order-2 flex justify-center lg:justify-end"
           >
             <div
-              className="relative aspect-square w-[260px] sm:w-[320px] lg:w-[420px]"
+              className="relative aspect-square w-[260px] sm:w-[320px] lg:w-[380px]"
               style={{
                 transform: `translate3d(${parallax.x}px, ${parallax.y}px, 0)`,
                 transition: "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
@@ -177,46 +178,21 @@ export function Hero() {
                 }}
               />
 
-              {/* Main disc */}
+              {/* Headshot disc */}
               <m.div
                 initial={{ opacity: 0, scale: 0.92 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1.1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className="relative h-full w-full rounded-full overflow-hidden border border-white/10 shadow-[0_30px_80px_-30px_rgba(0,102,255,0.55)]"
-                style={{
-                  background:
-                    "radial-gradient(120% 120% at 20% 15%, rgba(0,102,255,0.55) 0%, rgba(0,68,204,0.35) 35%, #0a0a0a 70%, #050505 100%)",
-                }}
+                className="relative h-full w-full rounded-full overflow-hidden ring-2 ring-[#0066FF]/30 ring-offset-4 ring-offset-bg shadow-[0_30px_80px_-30px_rgba(0,102,255,0.55)]"
               >
-                {/* Inner texture */}
-                <div
-                  aria-hidden
-                  className="absolute inset-0 opacity-50"
-                  style={{
-                    background:
-                      "radial-gradient(60% 60% at 70% 80%, rgba(0,102,255,0.4) 0%, transparent 60%)",
-                  }}
+                <Image
+                  src="/headshot.jpg"
+                  alt="Ethan Peterson"
+                  fill
+                  sizes="(max-width: 640px) 260px, (max-width: 1024px) 320px, 380px"
+                  className="object-cover object-top"
+                  priority
                 />
-                <div
-                  aria-hidden
-                  className="absolute inset-0 mix-blend-overlay opacity-40"
-                  style={{
-                    backgroundImage:
-                      "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.85' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.6'/></svg>\")",
-                  }}
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span
-                    className="font-display text-white leading-none select-none"
-                    style={{
-                      fontSize: "clamp(80px, 12vw, 140px)",
-                      letterSpacing: "-0.04em",
-                      textShadow: "0 6px 40px rgba(0,0,0,0.4)",
-                    }}
-                  >
-                    EP
-                  </span>
-                </div>
               </m.div>
 
               {/* Orbiting pills */}

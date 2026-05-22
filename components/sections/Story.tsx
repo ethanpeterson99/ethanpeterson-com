@@ -15,7 +15,7 @@ export function Story() {
   return (
     <section
       id="story"
-      className="relative overflow-hidden bg-surface py-24 lg:py-36 border-b border-line scroll-mt-24"
+      className="relative overflow-hidden bg-[#F0F0EC] dark:bg-[#141414] py-24 lg:py-36 border-b border-line scroll-mt-24"
     >
       {/* Rotated background label */}
       <span
@@ -71,7 +71,7 @@ export function Story() {
                 )}
                 <TextReveal
                   text={p}
-                  className="text-text-primary/80 leading-[1.7] text-[clamp(15px,1.6vw,18px)]"
+                  className="text-[#333330] dark:text-[#CCCCB8] leading-[1.7] text-[clamp(15px,1.6vw,18px)]"
                   stagger={0.012}
                 />
               </div>

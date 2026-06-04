@@ -6,7 +6,7 @@ import { TextReveal } from "@/components/ui/TextReveal";
 
 const paragraphs = [
   "It started at BYU AdLab, where I learned that marketing was really just applied psychology with a spreadsheet. I ran real campaigns for real clients and realized I was better at this than most people with 10 more years of experience.",
-  "From there I went independent. Under EBP Designs I worked with 30+ brands over 10 years — startups, agencies, nonprofits. You learn a lot when you're accountable for results and there's no one else to blame.",
+  "From there I went independent. Under Freshlime Media I worked with 30+ brands over 10 years — startups, agencies, nonprofits. You learn a lot when you're accountable for results and there's no one else to blame.",
   "Leadgenix taught me SEO and CRO at scale. I managed six-figure monthly ad budgets, ran link acquisition campaigns, and built reporting systems before “AI workflows” was a buzzword.",
   "Now I'm operating at two companies simultaneously — building the marketing engine at Vibrant Wellness while co-owning Pickled Court and rolling out a franchise. I also build the AI agents that make both possible.",
 ];
@@ -42,9 +42,6 @@ export function Story() {
               transition={{ duration: 0.7 }}
               className="lg:sticky lg:top-28"
             >
-              <span className="text-[11px] uppercase tracking-[0.22em] text-text-primary/45">
-                §03 / Origins
-              </span>
               <h2
                 className="font-display tracking-tight leading-[1.02] mt-3"
                 style={{ fontSize: "clamp(36px, 4.5vw, 56px)" }}

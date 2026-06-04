@@ -53,7 +53,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        error: "Email service is not configured. Please email ethan@pickledcourt.com directly.",
+        error: "Email service is not configured. Please email ethanpeterson99@gmail.com directly.",
       },
       { status: 503 },
     );

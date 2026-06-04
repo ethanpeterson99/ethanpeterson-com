@@ -41,9 +41,6 @@ export function WhatIDo() {
           >
             What I actually do
           </h2>
-          <span className="hidden md:block text-[11px] uppercase tracking-[0.22em] text-text-primary/45">
-            §01 / Capability
-          </span>
         </m.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">

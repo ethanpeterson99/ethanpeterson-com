@@ -5,41 +5,24 @@ import { AnimatePresence, m } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 
-type Status = "idle" | "submitting" | "success" | "error";
+type Status = "idle" | "success";
 
 export default function ContactPage() {
   const [status, setStatus] = useState<Status>("idle");
-  const [errorMsg, setErrorMsg] = useState<string>("");
 
-  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setStatus("submitting");
-    setErrorMsg("");
-
     const form = e.currentTarget;
     const data = new FormData(form);
-    const payload = {
-      name: String(data.get("name") || ""),
-      email: String(data.get("email") || ""),
-      message: String(data.get("message") || ""),
-    };
+    const name = String(data.get("name") || "");
+    const email = String(data.get("email") || "");
+    const message = String(data.get("message") || "");
 
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const json = (await res.json()) as { success?: boolean; error?: string };
-      if (!res.ok || !json.success) {
-        throw new Error(json.error || "Something went wrong.");
-      }
-      setStatus("success");
-      form.reset();
-    } catch (err) {
-      setStatus("error");
-      setErrorMsg(err instanceof Error ? err.message : "Something went wrong.");
-    }
+    const subject = encodeURIComponent(`Message from ${name}`);
+    const body = encodeURIComponent(`From: ${name}\nEmail: ${email}\n\n${message}`);
+    window.location.href = `mailto:ethanpeterson99@gmail.com?subject=${subject}&body=${body}`;
+    setStatus("success");
+    form.reset();
   }
 
   const words = ["Let’s", "talk."];
@@ -48,21 +31,12 @@ export default function ContactPage() {
     <main className="pt-32 lg:pt-40 pb-24 min-h-[90vh]">
       <Container>
         <div className="max-w-3xl">
-          <m.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="block text-[11px] uppercase tracking-[0.22em] text-text-primary/45 mb-6"
-          >
-            §06 / Contact
-          </m.span>
-
           <h1
-            className="font-display tracking-tight leading-[1.02] mb-8"
+            className="font-display tracking-tight leading-[1.2] mb-8"
             style={{ fontSize: "clamp(48px, 9vw, 112px)" }}
           >
             {words.map((w, i) => (
-              <span key={i} className="word-mask block">
+              <span key={i} className={`word-mask block${i === 0 ? " mb-6" : ""}`}>
                 <m.span
                   initial={{ y: "110%" }}
                   animate={{ y: "0%" }}
@@ -134,18 +108,13 @@ export default function ContactPage() {
                   type="textarea"
                 />
 
-                {status === "error" && (
-                  <p className="text-sm text-red-500">{errorMsg}</p>
-                )}
-
                 <div className="pt-2">
                   <MagneticButton
                     type="submit"
-                    disabled={status === "submitting"}
                     variant="primary"
                     size="lg"
                   >
-                    {status === "submitting" ? "Sending…" : "Send message"}
+                    Send message
                     <Arrow />
                   </MagneticButton>
                 </div>

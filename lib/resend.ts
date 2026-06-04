@@ -6,5 +6,5 @@ export function getResend(): Resend | null {
   return new Resend(key);
 }
 
-export const CONTACT_TO = "ethan@pickledcourt.com";
+export const CONTACT_TO = "ethanpeterson99@gmail.com";
 export const CONTACT_FROM = "Ethan Peterson <noreply@ethanpeterson.com>";

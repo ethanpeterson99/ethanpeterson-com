@@ -2,6 +2,7 @@
 
 import { m, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { MagneticLink } from "@/components/ui/MagneticButton";
 
@@ -13,7 +14,6 @@ const lines: { text: string; italic?: boolean }[] = [
 
 const pills = [
   { label: "10+ yrs", sub: "Marketing", style: "top-[6%] left-[-12%]" },
-  { label: "3x", sub: "Founder", style: "top-[18%] right-[-14%]" },
   { label: "AI", sub: "First", style: "bottom-[16%] left-[-18%]" },
   { label: "30+", sub: "Brands", style: "bottom-[4%] right-[-8%]" },
 ];
@@ -182,41 +182,15 @@ export function Hero() {
                 initial={{ opacity: 0, scale: 0.92 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1.1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className="relative h-full w-full rounded-full overflow-hidden border border-white/10 shadow-[0_30px_80px_-30px_rgba(0,102,255,0.55)]"
-                style={{
-                  background:
-                    "radial-gradient(120% 120% at 20% 15%, rgba(0,102,255,0.55) 0%, rgba(0,68,204,0.35) 35%, #0a0a0a 70%, #050505 100%)",
-                }}
+                className="relative h-full w-full rounded-full overflow-hidden border border-white/10 shadow-[0_30px_80px_-30px_rgba(0,102,255,0.55)] bg-black dark:bg-black"
               >
-                {/* Inner texture */}
-                <div
-                  aria-hidden
-                  className="absolute inset-0 opacity-50"
-                  style={{
-                    background:
-                      "radial-gradient(60% 60% at 70% 80%, rgba(0,102,255,0.4) 0%, transparent 60%)",
-                  }}
+                <Image
+                  src="/headshot.png"
+                  alt="Ethan Peterson"
+                  fill
+                  className="object-cover object-top"
+                  priority
                 />
-                <div
-                  aria-hidden
-                  className="absolute inset-0 mix-blend-overlay opacity-40"
-                  style={{
-                    backgroundImage:
-                      "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.85' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.6'/></svg>\")",
-                  }}
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span
-                    className="font-display text-white leading-none select-none"
-                    style={{
-                      fontSize: "clamp(80px, 12vw, 140px)",
-                      letterSpacing: "-0.04em",
-                      textShadow: "0 6px 40px rgba(0,0,0,0.4)",
-                    }}
-                  >
-                    EP
-                  </span>
-                </div>
               </m.div>
 
               {/* Orbiting pills */}

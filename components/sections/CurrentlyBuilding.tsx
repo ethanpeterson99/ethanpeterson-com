@@ -22,12 +22,9 @@ export function CurrentlyBuilding() {
           >
             Currently building
           </h2>
-          <span className="hidden md:block text-[11px] uppercase tracking-[0.22em] text-text-primary/45">
-            §02 / Index
-          </span>
         </m.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
           {projects.map((project, i) => (
             <m.div
               key={project.name}

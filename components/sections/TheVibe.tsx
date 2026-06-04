@@ -1,19 +1,19 @@
 "use client";
 
-import { m } from "framer-motion";
+import { m, useMotionValue, useSpring } from "framer-motion";
+import { useRef, useEffect } from "react";
 import { Container } from "@/components/ui/Container";
 
-const vibes: { label: string; size?: "sm" | "md" | "lg" }[] = [
-  { label: "Pickleball try-hard", size: "lg" },
-  { label: "AI-first marketing wizard", size: "md" },
-  { label: "Agent architect", size: "lg" },
-  { label: "Prompt poet", size: "sm" },
-  { label: "SEO/AEO whisperer", size: "md" },
-  { label: "Growth marketing nerd", size: "lg" },
-  { label: "Dad of 3", size: "sm" },
-  { label: "Builder who ships", size: "md" },
-  { label: "Founder", size: "sm" },
-  { label: "Operator", size: "md" },
+const vibes: { label: string; size?: "sm" | "md" | "lg"; offsetY: number }[] = [
+  { label: "Pickleball try-hard", size: "lg", offsetY: 0 },
+  { label: "AI-first marketing wizard", size: "md", offsetY: 28 },
+  { label: "Agent architect", size: "lg", offsetY: -12 },
+  { label: "Prompt poet", size: "sm", offsetY: 40 },
+  { label: "SEO/AEO whisperer", size: "md", offsetY: 8 },
+  { label: "Growth marketing nerd", size: "lg", offsetY: -24 },
+  { label: "Dad", size: "sm", offsetY: 52 },
+  { label: "Builder who ships", size: "md", offsetY: -8 },
+  { label: "Operator", size: "md", offsetY: 20 },
 ];
 
 const sizeClasses: Record<NonNullable<(typeof vibes)[number]["size"]>, string> = {
@@ -22,10 +22,96 @@ const sizeClasses: Record<NonNullable<(typeof vibes)[number]["size"]>, string> =
   lg: "px-6 py-3 text-[17px] md:text-[19px]",
 };
 
+const REPEL_RADIUS = 130;
+const REPEL_FORCE = 170;
+const SPRING_CONFIG = { stiffness: 220, damping: 18, mass: 0.35 };
+
+function ScatterBubble({
+  label,
+  size,
+  index,
+  offsetY,
+  containerRef,
+}: {
+  label: string;
+  size?: "sm" | "md" | "lg";
+  index: number;
+  offsetY: number;
+  containerRef: React.RefObject<HTMLUListElement | null>;
+}) {
+  const ref = useRef<HTMLLIElement>(null);
+  const rawX = useMotionValue(0);
+  const rawY = useMotionValue(0);
+  const x = useSpring(rawX, SPRING_CONFIG);
+  const y = useSpring(rawY, SPRING_CONFIG);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    function onMouseMove(e: MouseEvent) {
+      const el = ref.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = e.clientX - cx;
+      const dy = e.clientY - cy;
+      const dist = Math.hypot(dx, dy);
+      if (dist < REPEL_RADIUS) {
+        const t = 1 - dist / REPEL_RADIUS;
+        const force = t * REPEL_FORCE;
+        const angle = Math.atan2(dy, dx);
+        rawX.set(-Math.cos(angle) * force);
+        rawY.set(-Math.sin(angle) * force);
+      } else {
+        rawX.set(0);
+        rawY.set(0);
+      }
+    }
+
+    function onMouseLeave() {
+      rawX.set(0);
+      rawY.set(0);
+    }
+
+    container.addEventListener("mousemove", onMouseMove);
+    container.addEventListener("mouseleave", onMouseLeave);
+    return () => {
+      container.removeEventListener("mousemove", onMouseMove);
+      container.removeEventListener("mouseleave", onMouseLeave);
+    };
+  }, [containerRef, rawX, rawY]);
+
+  return (
+    <m.li
+      ref={ref}
+      style={{ x, y, marginTop: offsetY }}
+      initial={{ opacity: 0, scale: 0.85 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{
+        duration: 0.6,
+        delay: (index % 5) * 0.06,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+    >
+      <span
+        className={`inline-flex items-center rounded-full border border-white/15 bg-white/[0.04] backdrop-blur-md select-none ${
+          sizeClasses[size ?? "md"]
+        }`}
+      >
+        {label}
+      </span>
+    </m.li>
+  );
+}
+
 export function TheVibe() {
+  const containerRef = useRef<HTMLUListElement>(null);
+
   return (
     <section className="relative overflow-hidden bg-[#0A0A0A] text-[#F0F0EB] py-28 lg:py-40">
-      {/* Morphing gradient blob */}
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 opacity-50 blur-3xl animate-blob-morph"
@@ -58,32 +144,21 @@ export function TheVibe() {
           >
             The <em className="font-display italic text-accent">vibe</em>
           </h2>
-          <span className="hidden md:block text-[11px] uppercase tracking-[0.22em] text-white/40">
-            §04 / Personality
-          </span>
         </m.div>
 
-        <ul className="relative flex flex-wrap items-center gap-3 md:gap-4 justify-center md:justify-start">
+        <ul
+          ref={containerRef}
+          className="relative flex flex-wrap items-start gap-3 md:gap-5 justify-center md:justify-start pb-16"
+        >
           {vibes.map((v, i) => (
-            <m.li
+            <ScatterBubble
               key={v.label}
-              initial={{ opacity: 0, scale: 0.85, y: 14 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{
-                duration: 0.6,
-                delay: Math.random() * 0.5 + (i % 5) * 0.06,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-            >
-              <span
-                className={`inline-flex items-center rounded-full border border-white/15 bg-white/[0.04] backdrop-blur-md transition-colors duration-300 hover:bg-white hover:text-[#0A0A0A] hover:border-white ${
-                  sizeClasses[v.size ?? "md"]
-                }`}
-              >
-                {v.label}
-              </span>
-            </m.li>
+              label={v.label}
+              size={v.size}
+              index={i}
+              offsetY={v.offsetY}
+              containerRef={containerRef}
+            />
           ))}
         </ul>
       </Container>

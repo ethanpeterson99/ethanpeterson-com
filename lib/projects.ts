@@ -10,30 +10,24 @@ export const projects: Project[] = [
   {
     name: "Vibrant Wellness",
     role: "Performance Marketing Manager",
-    description: "Full-funnel paid + SEO for a DTC health brand.",
+    description: "Performance and Growth Marketing for a B2B2C health brand.",
     tag: "Full-time",
     href: "https://vibrant-wellness.com",
   },
   {
     name: "Pickled Court",
-    role: "Co-Owner",
+    role: "CEO & Co-Owner",
     description:
       "Franchise rollout for a pickleball court surfacing company.",
-    tag: "Founder",
+    tag: "Co-Owner",
     href: "https://pickledcourt.com",
   },
   {
-    name: "EBP Designs",
+    name: "Freshlime Media",
     role: "Freelance",
     description:
       "10 years of brand, design, and dev for growth-focused clients.",
     tag: "Since 2016",
-  },
-  {
-    name: "CourtScout",
-    role: "Founder",
-    description:
-      "Geospatial lead-gen for court surfacing contractors, MVP in progress.",
-    tag: "Building",
+    href: "https://freshlimemedia.com",
   },
 ];

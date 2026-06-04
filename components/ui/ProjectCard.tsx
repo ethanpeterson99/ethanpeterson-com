@@ -6,18 +6,14 @@ type ProjectCardProps = {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const inner = (
-    <div className="group relative isolate h-full overflow-hidden rounded-2xl border border-line bg-bg p-8 lg:p-10 transition-[transform,border-color,box-shadow] duration-500 hover:-translate-y-1.5 hover:border-accent/40 hover:shadow-[0_30px_70px_-30px_rgba(0,102,255,0.35)]">
+    <div className="group relative isolate h-full overflow-hidden rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#141414] p-8 lg:p-10 transition-[transform,border-color,box-shadow,background-color] duration-500 hover:-translate-y-1.5 hover:border-accent/40 hover:bg-[#0066FF]/[0.04] dark:hover:bg-[#0066FF]/[0.06] hover:shadow-[0_20px_60px_rgba(0,102,255,0.08)] dark:hover:shadow-[0_20px_60px_rgba(0,102,255,0.15)]">
       <span
         aria-hidden
-        className="absolute left-0 top-0 bottom-0 w-[3px] bg-accent"
-      />
-      <span
-        aria-hidden
-        className="absolute inset-0 bg-accent/[0.04] origin-left scale-x-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100 pointer-events-none"
+        className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#0066FF]"
       />
 
       <div className="relative flex items-start justify-between gap-4 mb-8">
-        <p className="text-[11px] uppercase tracking-[0.22em] text-text-primary/55">
+        <p className="text-[11px] uppercase tracking-[0.22em] text-[#777770] dark:text-[#666660]">
           {project.role}
         </p>
         <span className="shrink-0 text-[10px] font-medium uppercase tracking-[0.18em] text-accent bg-accent/10 border border-accent/20 px-3 py-1 rounded-full">
@@ -26,17 +22,17 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </div>
 
       <h3
-        className="relative font-display leading-[1.05] mb-4"
+        className="relative font-display leading-[1.05] mb-4 text-[#111111] dark:text-[#F0F0EB]"
         style={{ fontSize: "clamp(28px, 3.5vw, 40px)" }}
       >
         {project.name}
       </h3>
 
-      <p className="relative text-text-primary/70 leading-relaxed text-[15px] mb-10 max-w-prose">
+      <p className="relative text-[#444440] dark:text-[#888880] leading-relaxed text-[15px] mb-10 max-w-prose">
         {project.description}
       </p>
 
-      <div className="relative flex items-center gap-2 text-[12px] uppercase tracking-[0.22em] text-text-primary/55 group-hover:text-accent transition-colors duration-300">
+      <div className="relative flex items-center gap-2 text-[12px] uppercase tracking-[0.22em] text-[#777770] dark:text-[#666660] group-hover:text-accent transition-colors duration-300">
         <span>{project.href ? "Visit" : "In progress"}</span>
         <svg
           width="20"

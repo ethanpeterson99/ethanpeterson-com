@@ -47,9 +47,9 @@ export function Nav() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-[90] transition-[background-color,backdrop-filter,border-color,box-shadow] duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-[90] transition-[background-color,backdrop-filter,border-color,box-shadow] duration-500 text-[#111111] dark:text-[#F0F0EB] ${
           scrolled
-            ? "backdrop-blur-xl bg-bg/80 border-b border-line"
+            ? "backdrop-blur-xl bg-[#FAFAF7]/90 dark:bg-[#0A0A0A]/80 border-b border-line"
             : "backdrop-blur-0 bg-transparent border-b border-transparent"
         }`}
       >
@@ -70,7 +70,7 @@ export function Nav() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="link-underline text-[13px] uppercase tracking-[0.18em] text-text-primary/80 hover:text-text-primary transition-colors"
+                className="link-underline text-[13px] uppercase tracking-[0.18em] text-[#111111] dark:text-[#F0F0EB] opacity-80 hover:opacity-100 transition-opacity"
               >
                 {l.label}
               </Link>

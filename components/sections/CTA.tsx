@@ -15,7 +15,7 @@ export function CTA() {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
           <h2
-            className="font-display tracking-tight leading-[1.0] mt-4 mb-8 max-w-4xl"
+            className="font-display tracking-tight leading-[1.0] mt-4 mb-8 max-w-4xl text-[#111111] dark:text-white"
             style={{ fontSize: "clamp(44px, 9vw, 112px)" }}
           >
             Want to{" "}
@@ -24,7 +24,7 @@ export function CTA() {
           </h2>
 
           <p
-            className="text-text-primary/65 max-w-2xl mb-14 leading-relaxed"
+            className="text-[#555550] dark:text-[#999990] max-w-2xl mb-14 leading-relaxed"
             style={{ fontSize: "clamp(15px, 2vw, 19px)" }}
           >
             I&apos;m selective about what I take on, but if it&apos;s
